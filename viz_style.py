@@ -335,6 +335,31 @@ def boxes(ax, groups, labels, colors):
     return bp
 
 
+def contact_sheet(name="00-contact-sheet", figdir=FIGDIR, cols=3, thumb_width=520):
+    """Tile every numbered figure in `figdir` into a single overview PNG.
+
+    Lets the whole set be checked for consistency at a glance, and gives the
+    README one image that stands in for all fifteen.
+    """
+    from PIL import Image
+
+    paths = sorted(p for p in os.listdir(figdir)
+                   if p.endswith(".png") and p[:2].isdigit() and not p.startswith("00"))
+    if not paths:
+        return None
+    tw = thumb_width
+    th = round(tw * FIGSIZE[1] / FIGSIZE[0])
+    rows = -(-len(paths) // cols)
+    sheet = Image.new("RGB", (cols * tw, rows * th), (232, 232, 228))
+    for i, p in enumerate(paths):
+        thumb = Image.open(os.path.join(figdir, p)).convert("RGB").resize(
+            (tw, th), Image.LANCZOS)
+        sheet.paste(thumb, ((i % cols) * tw, (i // cols) * th))
+    out = os.path.join(figdir, f"{name}.png")
+    sheet.save(out, format="PNG", compress_level=6)
+    return out
+
+
 def label_bar(ax, x, y, text, *, color=INK, dy=0.0, ha="center", va="bottom",
               fontsize=9.5):
     """Direct-label a single mark. Use for the max or the endpoint only."""

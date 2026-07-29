@@ -1,19 +1,24 @@
-# Ignore environment
+# Virtual environments
 accredian-env/
+env/
 .venv/
 *.env
 
-# Ignore Jupyter checkpoints
+# Jupyter checkpoints
 .ipynb_checkpoints/
 
-# Ignore Python caches
+# Python caches
 __pycache__/
 *.pyc
 
-# Ignore data files
+# Data — download Fraud.csv from Kaggle, see README
 *.csv
 
-# Ignore models
+# Generated model artefacts
 *.pkl
 
-# Figures in figures/ ARE tracked - the README embeds them.
+# Not part of this project
+nexora.ipynb
+resume_extract*.yaml
+
+# Note: figures/ IS tracked — the README embeds those PNGs.

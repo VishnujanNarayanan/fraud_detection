@@ -4,6 +4,7 @@ pyarrow
 scipy
 scikit-learn
 matplotlib
+pillow
 joblib
 jupyter
 nbformat

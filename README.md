@@ -1,83 +1,95 @@
 <h1 align="center">Fraud Detection on Mobile-Money Transactions</h1>
 
 <p align="center">
-  Detecting fraudulent transfers in 6.36M PaySim mobile-money transactions, where fraud is
-  1 row in 775 — and showing why the ROC-AUC everyone reports for this dataset is misleading.
+  Finding 8,213 fraudulent transfers hidden in <b>6.36 million</b> PaySim mobile-money
+  transactions — 1 row in 775 — at <b>0.744 average precision</b> and <b>95.4% recall</b>,<br>
+  and showing why the 0.995 ROC-AUC everyone reports for this dataset is the wrong number.
 </p>
 
-<p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
+<div align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white">
   <img alt="pandas" src="https://img.shields.io/badge/pandas-2.3-150458?logo=pandas&logoColor=white">
   <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-1.7-F7931E?logo=scikitlearn&logoColor=white">
-  <img alt="matplotlib" src="https://img.shields.io/badge/matplotlib-3.10-11557C">
-  <img alt="Licence" src="https://img.shields.io/badge/licence-MIT-green">
-</p>
+  <img alt="Matplotlib" src="https://img.shields.io/badge/Matplotlib-3.10-11557C">
+  <img alt="PyArrow" src="https://img.shields.io/badge/PyArrow-23.0-4C8CBF?logo=apachearrow&logoColor=white">
+  <img alt="Licence" src="https://img.shields.io/badge/Licence-MIT-green">
+  <br>
+  <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
+  <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
+  <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
+</div>
 
----
+One notebook, top to bottom in ~70 seconds: EDA on all 6.36M rows, a hand-built
+`FraudPreprocessor` transformer, three logistic-regression variants, and 15 figures that all
+route through a single shared style module.
 
 ## Results
 
-<p align="center"><img src="figures/10-fraud-rate-by-hour.png" width="88%"></p>
-
-Fraud runs at a near-constant ~342 cases an hour while legitimate volume collapses overnight.
-The result is a 422× swing in fraud rate between 05:00 (22.3%) and 19:00 (0.053%) — the
-strongest single signal in the dataset, and one no raw column exposes.
-
-<p align="center"><img src="figures/13-precision-recall-curves.png" width="88%"></p>
-
-Precision-recall separates the three models; ROC does not. Average precision falls from
-**0.744** (all engineered features) to **0.018** (amount alone) against **0.0013** for a
-random classifier.
-
-<p align="center"><img src="figures/15-confusion-matrix.png" width="88%"></p>
-
-The cost of 95.4% recall at the default threshold: 40,637 false positives, so only 1 alert
-in 27 is real.
-
 | Model | ROC-AUC | Avg precision | Precision | Recall | F1 |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | Amount only (baseline) | 0.7870 | 0.0184 | 0.0027 | 0.7243 | 0.0054 |
 | **All engineered features** | **0.9947** | **0.7440** | 0.0371 | 0.9537 | 0.0715 |
 | Reduced feature set | 0.9946 | 0.7355 | 0.0361 | 0.9556 | 0.0696 |
 
-Logistic regression, `class_weight="balanced"`, scored on a held-out 20% split
-(1,272,524 transactions, 1,643 fraudulent). All 15 figures are in [`figures/`](figures/).
+Logistic regression with `class_weight="balanced"`, scored on a held-out 20% split —
+1,272,524 transactions, 1,643 of them fraudulent.
+
+<p align="center">
+  <img src="figures/10-fraud-rate-by-hour.png" width="88%" alt="Fraud rate by hour of the simulated day, log scale">
+</p>
+<p align="center"><i>The strongest signal in the dataset. Fraud runs at a near-constant ~342 cases an hour while legitimate volume collapses overnight — a 422× swing in fraud rate between 05:00 (22.3%) and 19:00 (0.053%).</i></p>
+
+<p align="center">
+  <img src="figures/13-precision-recall-curves.png" width="88%" alt="Precision-recall curves for the three model variants">
+</p>
+<p align="center"><i>Precision-recall separates the three models; ROC does not. Average precision falls from 0.744 to 0.018 against 0.0013 for a random classifier.</i></p>
+
+<p align="center">
+  <img src="figures/15-confusion-matrix.png" width="88%" alt="Confusion matrix at the 0.50 threshold">
+</p>
+<p align="center"><i>The price of 95.4% recall at the default threshold: 40,637 false positives, so only 1 alert in 27 is real.</i></p>
 
 ## Dataset
 
-**PaySim** — an agent-based simulation of mobile-money transactions calibrated on a real
-African mobile-money service, published as
+**PaySim** — an agent-based simulation of mobile-money transactions, calibrated on logs from a
+real African mobile-money service, published as
 [Synthetic Financial Datasets For Fraud Detection](https://www.kaggle.com/datasets/ealaxi/paysim1)
-(Lopez-Rojas et al.), licensed **CC BY-SA 4.0**.
+(Lopez-Rojas et al.).
 
 | | |
-|---|---|
-| Rows × columns | 6,362,620 × 11 |
-| File | `Fraud.csv`, 471 MB |
+| --- | --- |
+| Shape | 6,362,620 rows × 11 columns (471 MB) |
 | Period | 743 hourly steps ≈ 31 simulated days |
 | Target | `isFraud` — 8,213 positives (0.129%) |
+| Channels | CASH_OUT, PAYMENT, CASH_IN, TRANSFER, DEBIT |
 | Missing values | none |
+| Split | 5,090,096 train / 1,272,524 test, stratified, `random_state=42` |
+| Licence | CC BY-SA 4.0 |
 
-The CSV is **not in this repo** (it is gitignored). Download it from the Kaggle link above
-and place `Fraud.csv` in the repository root. Column definitions are in
+`Fraud.csv` is **not in this repo** — it is gitignored. Download it from the Kaggle link above
+and drop it in the repository root. Column definitions are in
 [`Data Dictionary.txt`](Data%20Dictionary.txt).
 
 ## Approach
 
-1. **Load** — read with the `pyarrow` engine and drop the two high-cardinality identifier
-   columns (`nameOrig`, `nameDest`) at parse time. Takes the 471 MB read from ~30s to under 2s.
-2. **Explore** — 11 figures covering class imbalance, channel mix, amount and balance
-   distributions by class, correlation structure, hour-of-day fraud rate, and the
-   balance-update signature. Chi-square (type vs fraud) and Mann–Whitney U (amount) both
-   return p < 1e-300.
-3. **Engineer** — `diff_orig` / `diff_dest` (balance movements), `suspicious_flag` (money
-   left the sender but the recipient balance never moved), cyclical hour encodings,
-   one-hot channel dummies, and `log_amount`. `newbalanceOrig` is dropped for perfect
-   collinearity with `oldbalanceOrg` (r = 1.00).
-4. **Model** — three logistic-regression variants (amount-only baseline, all engineered
-   features, reduced set) fitted on 5.09M rows in float32 to stay inside 7 GB of RAM.
-5. **Evaluate** — ROC and precision-recall curves, standardised coefficients, and a
-   confusion matrix at the 0.50 threshold.
+1. **Load.** Read with the `pyarrow` engine, dropping `nameOrig` and `nameDest` at parse time —
+   two identifier columns with ~6.3M distinct values each. Takes the 471 MB read from ~30s to
+   under 2s.
+2. **Explore.** 11 figures across class imbalance, channel mix, amount and balance
+   distributions by class, correlation structure, hour-of-day fraud rate and the
+   balance-update signature. Chi-square (channel vs fraud) and Mann–Whitney U (amount) both
+   return p below floating-point resolution.
+3. **Engineer.** `FraudPreprocessor` builds `diff_orig` / `diff_dest` (balance movements),
+   `suspicious_flag` (money left the sender but the recipient balance never moved), cyclical
+   hour encodings, one-hot channel dummies and `log_amount`. `newbalanceOrig` is dropped for
+   perfect collinearity with `oldbalanceOrg` (r = 1.00); both destination balances are kept
+   (r = 0.98, and the gap between them is itself the signal).
+4. **Model.** Three logistic-regression variants — an amount-only baseline to show what one
+   feature buys you, the full engineered set, and a reduced set with the weak and constant
+   features removed. Design matrices are cast to `float32` so the 5.09M-row fit stays inside
+   7 GB of RAM.
+5. **Evaluate.** ROC and precision-recall curves, standardised coefficients, and a confusion
+   matrix at the 0.50 threshold.
 
 ## Installation and usage
 
@@ -85,61 +97,136 @@ and place `Fraud.csv` in the repository root. Column definitions are in
 git clone https://github.com/VishnujanNarayanan/fraud_detection.git
 cd fraud_detection
 
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 
-# Place Fraud.csv (from Kaggle) in the repository root, then:
-jupyter notebook Fraud_Detection_Model.ipynb
+pip install -r requirements.txt
 ```
 
-To regenerate every figure in `figures/` non-interactively (~70s end to end):
+Place `Fraud.csv` (from Kaggle) in the repository root, then run the analysis end to end and
+regenerate every figure in `figures/`:
 
 ```bash
-python3 -c "
-import nbformat as nbf
-from nbclient import NotebookClient
-nb = nbf.read('Fraud_Detection_Model.ipynb', as_version=4)
-NotebookClient(nb, timeout=2400, resources={'metadata': {'path': '.'}}).execute()
-nbf.write(nb, 'Fraud_Detection_Model.ipynb')
-"
+jupyter nbconvert --to notebook --execute --inplace Fraud_Detection_Model.ipynb
 ```
+
+Or open it interactively:
+
+```bash
+jupyter lab Fraud_Detection_Model.ipynb
+```
+
+Requires Python 3.10+ and about 4 GB of free RAM. A full run takes roughly 70 seconds.
+
+## Figures
+
+Fifteen figures, all written by the notebook to [`figures/`](figures/) at 1600×1000. They share
+a single style module, so they read as one set.
+
+<p align="center">
+  <img src="figures/00-contact-sheet.png" width="900" alt="All fifteen figures shown together">
+</p>
+
+| Figure | Shows |
+| --- | --- |
+| [`01-class-imbalance`](figures/01-class-imbalance.png) | 8,213 fraud against 6.35M legitimate, log scale |
+| [`02-transaction-type-mix`](figures/02-transaction-type-mix.png) | Volume by channel |
+| [`03-fraud-count-by-type`](figures/03-fraud-count-by-type.png) | Fraud is exclusive to TRANSFER and CASH_OUT |
+| [`04-fraud-rate-by-type`](figures/04-fraud-rate-by-type.png) | Fraud rate within each channel |
+| [`05-amount-by-class`](figures/05-amount-by-class.png) | Amount by class, log scale |
+| [`06-correlation-heatmap`](figures/06-correlation-heatmap.png) | Correlation structure, zero-centred diverging |
+| [`07-amount-distribution-log`](figures/07-amount-distribution-log.png) | Amount density by class |
+| [`08-origin-balance-by-class`](figures/08-origin-balance-by-class.png) | Sender balance before the transaction |
+| [`09-destination-balance-by-class`](figures/09-destination-balance-by-class.png) | Recipient balance before the transaction |
+| [`10-fraud-rate-by-hour`](figures/10-fraud-rate-by-hour.png) | Fraud rate by hour of day |
+| [`11-balance-error-signature`](figures/11-balance-error-signature.png) | Unchanged recipient balances by class |
+| [`12-roc-curves`](figures/12-roc-curves.png) | ROC for all three models |
+| [`13-precision-recall-curves`](figures/13-precision-recall-curves.png) | Precision-recall for all three models |
+| [`14-model-coefficients`](figures/14-model-coefficients.png) | Standardised coefficients by sign |
+| [`15-confusion-matrix`](figures/15-confusion-matrix.png) | Confusion matrix at the 0.50 threshold |
+
+## Figure style
+
+Every chart routes through [`viz_style.py`](viz_style.py), which owns the rcParams, the palette
+and the layout geometry. The notebook never sets a colour, a grid or a font:
+
+```python
+import viz_style as vs
+
+vs.apply()
+
+fig, ax = vs.figure()                          # 8x5in at 200dpi
+ax.bar(labels, values, color=vs.BLUE)
+vs.finish(
+    fig, ax,
+    title="What the chart shows",
+    subtitle="Sample size and caveats",
+    xlabel="Transaction class",
+    ylabel="Fraud rate (% of transactions of that type)",
+    source="Source: PaySim synthetic mobile-money transaction log",
+)
+vs.save(fig, "04-fraud-rate-by-type")          # figures/…png at exactly 1600x1000
+```
+
+Margins are fixed rather than tight-cropped, so every PNG comes out the same pixel size. The
+module also exposes a fixed categorical palette, a single-hue sequential ramp, a zero-centred
+diverging norm, and tick formatters for thousands separators, compact currency and percentages.
+Fraud is orange and legitimate is blue in every chart, so the reader learns it once.
 
 ## Project structure
 
 ```
-.
-├── Fraud_Detection_Model.ipynb   # the analysis: EDA -> features -> 3 models -> 15 figures
-├── viz_style.py                  # shared matplotlib style: palette, rcParams, tick formatters
-├── figures/                      # 15 PNGs at 1600x1000, written by the notebook
-├── Data Dictionary.txt           # column definitions from the dataset authors
-├── requirements.txt              # runtime dependencies
-├── Fraud.csv                     # NOT in git - download from Kaggle
-└── fraud_preprocessor.pkl        # NOT in git - written by the notebook
+fraud_detection/
+├── Fraud_Detection_Model.ipynb   # The project: EDA → features → 3 models → 15 figures
+├── viz_style.py                  # Shared figure style — palette, type scale, layout, save path
+├── figures/                      # Generated PNGs, 1600x1000, overwritten on each run
+│   ├── 00-contact-sheet.png
+│   └── 01-…-15-….png
+├── Data Dictionary.txt           # Column definitions from the dataset authors
+├── requirements.txt
+├── LICENSE
+└── README.md
 ```
+
+`Fraud.csv` and `fraud_preprocessor.pkl` are gitignored — one is downloaded, the other generated.
 
 ## Findings
 
-- **Fraud is exclusive to two channels, not merely concentrated in them.** All 8,213 fraud
-  cases are `TRANSFER` (0.769% of transfers) or `CASH_OUT` (0.184%). `PAYMENT`, `DEBIT` and
-  `CASH_IN` contain zero fraud across 3.6M rows, so three of five channels can be discarded
-  before modelling.
-- **Time of day beats every raw column.** Fraud volume is flat at ~342 cases/hour around the
+- **Fraud is exclusive to two channels, not merely concentrated in them.** All 8,213 cases are
+  `TRANSFER` (0.769% of transfers) or `CASH_OUT` (0.184%). `PAYMENT`, `DEBIT` and `CASH_IN`
+  contain zero fraud across 3.6M rows, so three of the five channels can be discarded before
+  any model is fitted.
+- **Time of day beats every raw column.** Fraud volume is flat at ~342 cases an hour around the
   clock while legitimate traffic swings 500× (1,241 transactions at 04:00 against 647,814 at
-  19:00). That alone drives the fraud rate from 0.053% to 22.3%.
-- **The strongest engineered feature is an accounting impossibility.** In 49.6% of fraudulent
-  transactions money leaves the sender but the recipient's balance never changes, against
-  36.4% of legitimate ones. It carries the second-largest positive coefficient in the model.
-- **ROC-AUC is the wrong metric here and hides a 40× difference.** The amount-only baseline
-  scores a respectable-looking 0.787 ROC-AUC but only 0.018 average precision — barely
-  distinguishable from random once the 1.27M easy negatives stop counting. Reporting ROC-AUC
-  alone on this dataset would make a near-useless model look defensible.
-- **Two engineered features are provably dead.** `error_flag` is identically 0 (PaySim
-  contains no negative balances at all) and its fitted coefficient is exactly 0.000;
+  19:00). That asymmetry alone drives the fraud rate from 0.053% to 22.3% — and no raw column
+  exposes it; it has to be derived from `step`.
+- **The most useful engineered feature is an accounting impossibility.** In 49.6% of fraudulent
+  transactions money leaves the sender but the recipient's balance never changes, against 36.4%
+  of legitimate ones. It carries the largest positive coefficient in the model.
+- **ROC-AUC is the wrong metric here, and it hides a 40× gap.** The amount-only baseline scores
+  a respectable-looking 0.787 ROC-AUC but only 0.018 average precision — barely distinguishable
+  from random once the 1.27M easy negatives stop counting. Reporting ROC-AUC alone on this
+  dataset makes a near-useless model look defensible.
+- **Two engineered features are provably dead.** `error_flag` is identically 0 — PaySim contains
+  no negative balances at all — and its fitted coefficient is exactly 0.000.
   `always_nonfraud_type` is an exact linear combination of the three never-fraud channel
-  dummies. Both are dropped from the reduced model at no measurable cost (AP 0.7440 → 0.7355).
-- **The dataset's own rule catches almost nothing.** `isFlaggedFraud` fires on 16 transactions.
-  All 16 are genuine fraud, but that is 0.19% of the 8,213 cases present.
+  dummies. Dropping both costs almost nothing (AP 0.7440 → 0.7355).
+- **The dataset's own fraud rule catches almost nothing.** `isFlaggedFraud` fires on 16
+  transactions. All 16 are genuine fraud — but that is 0.19% of the 8,213 cases present.
+
+## Author
+
+<p align="center">
+  <strong>Vishnujan Narayanan</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
+  <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
+  <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
+</p>
 
 ## Licence
 
-[MIT](LICENSE). The PaySim dataset is separately licensed CC BY-SA 4.0 by its authors.
+Released under the MIT Licence — see [LICENSE](LICENSE). The PaySim dataset is separately
+licensed CC BY-SA 4.0 by its authors.
