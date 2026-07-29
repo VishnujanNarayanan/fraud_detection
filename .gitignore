@@ -1,12 +1,19 @@
 # Ignore environment
 accredian-env/
+.venv/
 *.env
 
 # Ignore Jupyter checkpoints
 .ipynb_checkpoints/
+
+# Ignore Python caches
+__pycache__/
+*.pyc
 
 # Ignore data files
 *.csv
 
 # Ignore models
 *.pkl
+
+# Figures in figures/ ARE tracked - the README embeds them.

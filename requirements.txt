@@ -1,6 +1,10 @@
 numpy
 pandas
+pyarrow
+scipy
 scikit-learn
 matplotlib
-seaborn
+joblib
 jupyter
+nbformat
+nbclient
