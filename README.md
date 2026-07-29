@@ -14,6 +14,8 @@
   <img alt="PyArrow" src="https://img.shields.io/badge/PyArrow-23.0-4C8CBF?logo=apachearrow&logoColor=white">
   <img alt="Licence" src="https://img.shields.io/badge/Licence-MIT-green">
   <br>
+  <a href="https://www.kaggle.com/datasets/ealaxi/paysim1"><img alt="Dataset on Kaggle" src="https://img.shields.io/badge/Dataset-PaySim_on_Kaggle-20BEFF?logo=kaggle&logoColor=white&style=for-the-badge"/></a>
+  <br>
   <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
   <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
   <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
@@ -66,9 +68,28 @@ real African mobile-money service, published as
 | Split | 5,090,096 train / 1,272,524 test, stratified, `random_state=42` |
 | Licence | CC BY-SA 4.0 |
 
-`Fraud.csv` is **not in this repo** — it is gitignored. Download it from the Kaggle link above
-and drop it in the repository root. Column definitions are in
+### Getting the data
+
+`Fraud.csv` is **not in this repo** — at 471 MB it is gitignored. Download it from Kaggle
+(~186 MB zipped) and unzip it into the repository root:
+
+```bash
+# Option 1 — Kaggle CLI (needs ~/.kaggle/kaggle.json)
+pip install kaggle
+kaggle datasets download -d ealaxi/paysim1 --unzip -p .
+
+# Option 2 — download by hand from
+# https://www.kaggle.com/datasets/ealaxi/paysim1
+# then unzip so that Fraud.csv sits next to Fraud_Detection_Model.ipynb
+```
+
+The archive contains a single CSV. If it unzips under a different name, rename it to
+`Fraud.csv` — that is the filename the notebook expects. Column definitions are in
 [`Data Dictionary.txt`](Data%20Dictionary.txt).
+
+The simulator behind the data is described in Lopez-Rojas, Elmir & Axelsson,
+*"PaySim: A financial mobile money simulator for fraud detection"*, 28th European Modeling
+and Simulation Symposium (EMSS), 2016.
 
 ## Approach
 
@@ -103,8 +124,9 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Place `Fraud.csv` (from Kaggle) in the repository root, then run the analysis end to end and
-regenerate every figure in `figures/`:
+Place `Fraud.csv` in the repository root — see
+[Getting the data](#getting-the-data) — then run the analysis end to end and regenerate every
+figure in `figures/`:
 
 ```bash
 jupyter nbconvert --to notebook --execute --inplace Fraud_Detection_Model.ipynb
