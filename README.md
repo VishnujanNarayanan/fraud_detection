@@ -6,20 +6,34 @@
   and showing why the 0.995 ROC-AUC everyone reports for this dataset is the wrong number.
 </p>
 
-<div align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white">
-  <img alt="pandas" src="https://img.shields.io/badge/pandas-2.3-150458?logo=pandas&logoColor=white">
-  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-1.7-F7931E?logo=scikitlearn&logoColor=white">
-  <img alt="Matplotlib" src="https://img.shields.io/badge/Matplotlib-3.10-11557C">
-  <img alt="PyArrow" src="https://img.shields.io/badge/PyArrow-23.0-4C8CBF?logo=apachearrow&logoColor=white">
-  <img alt="Licence" src="https://img.shields.io/badge/Licence-MIT-green">
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white"/>
+  <img alt="pandas" src="https://img.shields.io/badge/pandas-2.3-150458?logo=pandas&logoColor=white"/>
+  <img alt="NumPy" src="https://img.shields.io/badge/NumPy-2.2-013243?logo=numpy&logoColor=white"/>
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-1.7-F7931E?logo=scikitlearn&logoColor=white"/>
+  <img alt="Matplotlib" src="https://img.shields.io/badge/Matplotlib-3.10-11557c?logo=plotly&logoColor=white"/>
+  <img alt="PyArrow" src="https://img.shields.io/badge/PyArrow-23.0-4C8CBF?logo=apachearrow&logoColor=white"/>
+  <img alt="Jupyter" src="https://img.shields.io/badge/Jupyter-notebook-F37626?logo=jupyter&logoColor=white"/>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-750014"/></a>
   <br>
   <a href="https://www.kaggle.com/datasets/ealaxi/paysim1"><img alt="Dataset on Kaggle" src="https://img.shields.io/badge/Dataset-PaySim_on_Kaggle-20BEFF?logo=kaggle&logoColor=white&style=for-the-badge"/></a>
   <br>
   <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
   <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
   <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
-</div>
+</p>
+
+<p align="center">
+  📊 <a href="#results">Results</a> ·
+  🗃️ <a href="#dataset">Dataset</a> ·
+  🧩 <a href="#approach">Approach</a> ·
+  ⚡ <a href="#installation-and-usage">Installation</a> ·
+  🖼️ <a href="#figures">Figures</a> ·
+  🎨 <a href="#figure-style">Figure Style</a> ·
+  🔍 <a href="#findings">Findings</a>
+</p>
+
+---
 
 One notebook, top to bottom in ~70 seconds: EDA on all 6.36M rows, a hand-built
 `FraudPreprocessor` transformer, three logistic-regression variants, and 15 figures that all
