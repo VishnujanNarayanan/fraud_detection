@@ -115,7 +115,7 @@ and Simulation Symposium (EMSS), 2016.
    distributions by class, correlation structure, hour-of-day fraud rate and the
    balance-update signature. Chi-square (channel vs fraud) and Mann–Whitney U (amount) both
    return p below floating-point resolution.
-3. **Engineer.** `FraudPreprocessor` builds `diff_orig` / `diff_dest` (balance movements),
+3. **Engineer.** `FraudPreprocessor` (in `fraud_features.py`) builds `diff_orig` / `diff_dest` (balance movements),
    `suspicious_flag` (money left the sender but the recipient balance never moved), cyclical
    hour encodings, one-hot channel dummies and `log_amount`. `newbalanceOrig` is dropped for
    perfect collinearity with `oldbalanceOrg` (r = 1.00); both destination balances are kept
@@ -191,6 +191,20 @@ gigabyte of memory. `fraud.db` is gitignored — it is a build artefact, not a s
 
 Requires Python 3.10+ and about 4 GB of free RAM. A full run takes roughly 70 seconds.
 
+## Tests and CI
+
+```bash
+pip install -r requirements-dev.txt
+ruff check .          # lint
+pytest                # 23 tests, ~1 second
+```
+
+Every test is synthetic: the transformer is exercised on a ten-row frame covering all
+five channels, and the SQL runs against an in-memory SQLite database built from the real
+`sql/schema.sql`. Nothing depends on the 471 MB download, so CI runs on a clean checkout.
+
+These are the checks CI runs on every push and pull request.
+
 ## Figures
 
 Fifteen figures, all written by the notebook to [`figures/`](figures/) at 1600×1000. They share
@@ -252,6 +266,8 @@ Fraud is orange and legitimate is blue in every chart, so the reader learns it o
 fraud_detection/
 ├── Fraud_Detection_Model.ipynb   # The project: EDA → features → 3 models → 15 figures
 ├── viz_style.py                  # Shared figure style — palette, type scale, layout, save path
+├── fraud_features.py             # FraudPreprocessor — the feature-engineering transformer
+├── tests/                        # 23 tests over the transformer and the SQL, no dataset needed
 ├── load_sqlite.py                # Loads the CSV into SQLite and runs the aggregations
 ├── make_report.py                # Builds the Excel workbook from the aggregates
 ├── sql/

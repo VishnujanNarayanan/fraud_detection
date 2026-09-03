@@ -330,7 +330,7 @@ def boxes(ax, groups, labels, colors):
                     whiskerprops=dict(color=AXIS, linewidth=1.0),
                     capprops=dict(color=AXIS, linewidth=1.0),
                     boxprops=dict(linewidth=0))
-    for patch, c in zip(bp["boxes"], colors):
+    for patch, c in zip(bp["boxes"], colors, strict=True):
         patch.set_facecolor(c)
     return bp
 

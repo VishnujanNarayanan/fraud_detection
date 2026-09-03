@@ -1,0 +1,4 @@
+# Tooling for the checks CI runs. Runtime deps are in requirements.txt.
+-r requirements.txt
+pytest
+ruff
