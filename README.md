@@ -208,6 +208,21 @@ repo, `app.py` on `main`, and it builds from `requirements.txt`. Theme colours i
 `.streamlit/config.toml` match `viz_style.py`, so the dashboard and the figures it embeds
 read as one piece.
 
+## Docker
+
+```bash
+docker build -t fraud-detection .
+docker run --rm -p 8501:8501 fraud-detection        # dashboard on localhost:8501
+```
+
+The image carries the code and the small aggregates, not the dataset — `Fraud.csv` is
+471 MB and separately licensed. Mount it only when you want to rebuild the aggregates or
+run the notebook:
+
+```bash
+docker run --rm -v "$PWD/Fraud.csv:/app/Fraud.csv" fraud-detection python load_sqlite.py
+```
+
 ## Tests and CI
 
 ```bash
