@@ -1,0 +1,21 @@
+# The dataset and everything derived from it -- see the Dockerfile's opening comment.
+Fraud.csv
+*.csv
+!app_data/*.csv
+fraud.db
+*.pkl
+
+# Build and tooling noise that has no business in the image.
+.git
+.github
+.venv
+env/
+accredian-env/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+reports/
+bullet_extract*.yaml
+resume_extract*.yaml
