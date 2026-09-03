@@ -55,7 +55,8 @@ def build(csv_path: str = CSV, db_path: str = DB) -> int:
 
     con = sqlite3.connect(db_path)
     try:
-        con.executescript(open(SCHEMA, encoding="utf8").read())
+        with open(SCHEMA, encoding="utf8") as fh:
+            con.executescript(fh.read())
         rows = 0
         reader = pd.read_csv(csv_path, usecols=COLUMNS, chunksize=CHUNK)
         for chunk in reader:
@@ -71,7 +72,8 @@ def build(csv_path: str = CSV, db_path: str = DB) -> int:
 
 def run_queries(db_path: str = DB, sql_path: str = QUERIES) -> dict[str, pd.DataFrame]:
     """Run every named query in `sql_path` and return the results by name."""
-    queries = split_named_queries(open(sql_path, encoding="utf8").read())
+    with open(sql_path, encoding="utf8") as fh:
+        queries = split_named_queries(fh.read())
     con = sqlite3.connect(db_path)
     try:
         return {name: pd.read_sql_query(sql, con) for name, sql in queries.items()}
