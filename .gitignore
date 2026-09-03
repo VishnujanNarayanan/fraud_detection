@@ -26,3 +26,6 @@ resume_extract*.yaml
 # Resume extraction material — personal career data, never committed
 bullet_extract_latest.yaml
 bullet_extract_[0-9]*.yaml
+
+# SQLite build artefact — rebuild with `python load_sqlite.py`
+fraud.db
