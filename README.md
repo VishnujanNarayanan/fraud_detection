@@ -18,6 +18,7 @@
   <br>
   <a href="https://www.kaggle.com/datasets/ealaxi/paysim1"><img alt="Dataset on Kaggle" src="https://img.shields.io/badge/Dataset-PaySim_on_Kaggle-20BEFF?logo=kaggle&logoColor=white&style=for-the-badge"/></a>
   <br>
+  <a href="https://vishnujan-narayanan.vercel.app/"><img alt="Portfolio" src="https://img.shields.io/badge/Portfolio-vishnujan--narayanan.vercel.app-3b5998?logo=googlechrome&logoColor=white&style=for-the-badge"/></a>
   <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
   <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
   <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
@@ -152,6 +153,25 @@ Or open it interactively:
 jupyter lab Fraud_Detection_Model.ipynb
 ```
 
+### SQL aggregations
+
+The exploratory aggregations also exist as SQL, so the notebook, the spreadsheet report
+and the dashboard all read one definition of each number instead of recomputing it three
+times and drifting apart:
+
+```bash
+python load_sqlite.py            # build fraud.db, run sql/aggregations.sql, write app_data/
+python load_sqlite.py --skip-build   # re-run the queries against an existing database
+```
+
+`sql/schema.sql` defines the `transactions` table and its indexes; `sql/aggregations.sql`
+holds five named queries — channel mix, fraud rate by hour, amount by class, the
+balance-update signature, and how much the dataset's own fraud rule actually catches.
+Results are written to `app_data/*.csv`, which is what the dashboard reads.
+
+The load takes about 30 seconds and reads the CSV in chunks, so it stays well under a
+gigabyte of memory. `fraud.db` is gitignored — it is a build artefact, not a source file.
+
 Requires Python 3.10+ and about 4 GB of free RAM. A full run takes roughly 70 seconds.
 
 ## Figures
@@ -215,6 +235,11 @@ Fraud is orange and legitimate is blue in every chart, so the reader learns it o
 fraud_detection/
 ├── Fraud_Detection_Model.ipynb   # The project: EDA → features → 3 models → 15 figures
 ├── viz_style.py                  # Shared figure style — palette, type scale, layout, save path
+├── load_sqlite.py                # Loads the CSV into SQLite and runs the aggregations
+├── sql/
+│   ├── schema.sql                # transactions table + indexes
+│   └── aggregations.sql          # Five named queries behind the findings
+├── app_data/                     # Query results as small CSVs — the dashboard's input
 ├── figures/                      # Generated PNGs, 1600x1000, overwritten on each run
 │   ├── 00-contact-sheet.png
 │   └── 01-…-15-….png
@@ -224,7 +249,8 @@ fraud_detection/
 └── README.md
 ```
 
-`Fraud.csv` and `fraud_preprocessor.pkl` are gitignored — one is downloaded, the other generated.
+`Fraud.csv`, `fraud.db` and `fraud_preprocessor.pkl` are gitignored — one is downloaded, the
+others are generated.
 
 ## Findings
 
@@ -257,6 +283,7 @@ fraud_detection/
 </p>
 
 <p align="center">
+  <a href="https://vishnujan-narayanan.vercel.app/"><img alt="Portfolio" src="https://img.shields.io/badge/Portfolio-vishnujan--narayanan.vercel.app-3b5998?logo=googlechrome&logoColor=white&style=for-the-badge"/></a>
   <a href="https://github.com/VishnujanNarayanan"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-VishnujanNarayanan-181717?logo=github&logoColor=white&style=for-the-badge"/></a>
   <a href="https://www.linkedin.com/in/vishnujan-narayanan"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Vishnujan_Narayanan-0A66C2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2BPHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0yMC40NDcgMjAuNDUyaC0zLjU1NHYtNS41NjljMC0xLjMyOC0uMDI3LTMuMDM3LTEuODUyLTMuMDM3LTEuODUzIDAtMi4xMzYgMS40NDUtMi4xMzYgMi45Mzl2NS42NjdIOS4zNTFWOWgzLjQxNHYxLjU2MWguMDQ2Yy40NzctLjkgMS42MzctMS44NSAzLjM3LTEuODUgMy42MDEgMCA0LjI2NyAyLjM3IDQuMjY3IDUuNDU1djYuMjg2ek01LjMzNyA3LjQzM2MtMS4xNDQgMC0yLjA2My0uOTI2LTIuMDYzLTIuMDY1IDAtMS4xMzguOTItMi4wNjMgMi4wNjMtMi4wNjMgMS4xNCAwIDIuMDY0LjkyNSAyLjA2NCAyLjA2MyAwIDEuMTM5LS45MjUgMi4wNjUtMi4wNjQgMi4wNjV6bTEuNzgyIDEzLjAxOUgzLjU1NVY5aDMuNTY0djExLjQ1MnpNMjIuMjI1IDBIMS43NzFDLjc5MiAwIDAgLjc3NCAwIDEuNzI5djIwLjU0MkMwIDIzLjIyNy43OTIgMjQgMS43NzEgMjRoMjAuNDUxQzIzLjIgMjQgMjQgMjMuMjI3IDI0IDIyLjI3MVYxLjcyOUMyNCAuNzc0IDIzLjIgMCAyMi4yMjIgMGguMDAzeiIvPjwvc3ZnPg%3D%3D&logoColor=white&style=for-the-badge"/></a>
   <a href="https://substack.com/@vishnujannarayanan"><img alt="Substack" src="https://img.shields.io/badge/Substack-@vishnujannarayanan-FF6719?logo=substack&logoColor=white&style=for-the-badge"/></a>
