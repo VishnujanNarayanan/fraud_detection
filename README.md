@@ -164,6 +164,23 @@ python load_sqlite.py            # build fraud.db, run sql/aggregations.sql, wri
 python load_sqlite.py --skip-build   # re-run the queries against an existing database
 ```
 
+### Spreadsheet report
+
+The same aggregates, as a workbook someone in a risk or finance team can open without
+Python:
+
+```bash
+python make_report.py            # reads app_data/, writes reports/fraud_summary.xlsx
+```
+
+Six sheets — channel mix, fraud by hour (with a line chart), amount by class, the
+balance signature, the built-in rule's effectiveness, and a **pivot of fraud rate by
+channel and hour**. Each sheet carries a plain-English caption, a frozen filtered header
+and sized columns. `reports/` is gitignored — regenerate it from the CSVs.
+
+The pivot is where the sharpest finding shows up: **70.7% of transfers made in the 05:00
+hour are fraudulent**, against 2.4% at midnight.
+
 `sql/schema.sql` defines the `transactions` table and its indexes; `sql/aggregations.sql`
 holds five named queries — channel mix, fraud rate by hour, amount by class, the
 balance-update signature, and how much the dataset's own fraud rule actually catches.
@@ -236,10 +253,12 @@ fraud_detection/
 ├── Fraud_Detection_Model.ipynb   # The project: EDA → features → 3 models → 15 figures
 ├── viz_style.py                  # Shared figure style — palette, type scale, layout, save path
 ├── load_sqlite.py                # Loads the CSV into SQLite and runs the aggregations
+├── make_report.py                # Builds the Excel workbook from the aggregates
 ├── sql/
 │   ├── schema.sql                # transactions table + indexes
 │   └── aggregations.sql          # Five named queries behind the findings
-├── app_data/                     # Query results as small CSVs — the dashboard's input
+├── app_data/                     # Query results as small CSVs — the report's input
+├── reports/                      # Generated fraud_summary.xlsx (gitignored)
 ├── figures/                      # Generated PNGs, 1600x1000, overwritten on each run
 │   ├── 00-contact-sheet.png
 │   └── 01-…-15-….png

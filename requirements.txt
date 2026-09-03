@@ -4,6 +4,7 @@ pyarrow
 scipy
 scikit-learn
 matplotlib
+openpyxl
 pillow
 joblib
 jupyter
