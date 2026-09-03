@@ -29,6 +29,7 @@
   🗃️ <a href="#dataset">Dataset</a> ·
   🧩 <a href="#approach">Approach</a> ·
   ⚡ <a href="#installation-and-usage">Installation</a> ·
+  📈 <a href="#dashboard">Dashboard</a> ·
   🖼️ <a href="#figures">Figures</a> ·
   🎨 <a href="#figure-style">Figure Style</a> ·
   🔍 <a href="#findings">Findings</a>
@@ -191,6 +192,22 @@ gigabyte of memory. `fraud.db` is gitignored — it is a build artefact, not a s
 
 Requires Python 3.10+ and about 4 GB of free RAM. A full run takes roughly 70 seconds.
 
+## Dashboard
+
+```bash
+streamlit run app.py
+```
+
+Headline metrics, the channel breakdown, fraud rate by hour with a per-channel split and
+an hour inspector, the balance signature, and the analysis figures — all reading the
+same `app_data/` aggregates as the notebook and the spreadsheet.
+
+It never touches `Fraud.csv`, only the six small tracked CSVs, so it deploys to
+[Streamlit Community Cloud](https://share.streamlit.io) as-is: point a new app at this
+repo, `app.py` on `main`, and it builds from `requirements.txt`. Theme colours in
+`.streamlit/config.toml` match `viz_style.py`, so the dashboard and the figures it embeds
+read as one piece.
+
 ## Tests and CI
 
 ```bash
@@ -270,6 +287,7 @@ fraud_detection/
 ├── tests/                        # 23 tests over the transformer and the SQL, no dataset needed
 ├── load_sqlite.py                # Loads the CSV into SQLite and runs the aggregations
 ├── make_report.py                # Builds the Excel workbook from the aggregates
+├── app.py                        # Streamlit dashboard over the same aggregates
 ├── sql/
 │   ├── schema.sql                # transactions table + indexes
 │   └── aggregations.sql          # Five named queries behind the findings
