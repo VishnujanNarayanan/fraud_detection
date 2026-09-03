@@ -110,7 +110,7 @@ def main() -> None:
                     len(pivot.columns) + 1)
 
     print(f"wrote {OUT}")
-    for sheet in list(SHEETS) + ["Pivot channel x hour"]:
+    for sheet in [*SHEETS, "Pivot channel x hour"]:
         print(f"  sheet: {sheet}")
 
 

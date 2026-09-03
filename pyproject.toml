@@ -1,0 +1,25 @@
+# Tooling config only -- this project is a notebook plus a few modules, not a package.
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+# Notebook cells group imports under explanatory comments and import after setup
+# code on purpose; E402/I001 there are conventions, not defects.
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+# Defaults (pyflakes + a slice of pycodestyle) plus the rules that actually caught
+# something here: import order, unused arguments, comprehension and simplification
+# nits, and the pyupgrade set.
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+    "E501",    # line length is handled by the formatter, not worth failing CI over
+    "C408",    # dict(...) reads better than a literal for matplotlib prop bags
+    "RUF046",  # int(round(x)) is clearer about intent than round(x)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
