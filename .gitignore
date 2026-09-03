@@ -13,6 +13,9 @@ __pycache__/
 
 # Data — download Fraud.csv from Kaggle, see README
 *.csv
+# ...but the small SQL aggregate outputs ARE tracked: they are the report's and the
+# dashboard's only input, and the dashboard has no 471 MB CSV to recompute them from.
+!app_data/*.csv
 
 # Generated model artefacts
 *.pkl
@@ -29,3 +32,6 @@ bullet_extract_[0-9]*.yaml
 
 # SQLite build artefact — rebuild with `python load_sqlite.py`
 fraud.db
+
+# Generated spreadsheet report — rebuild with `python make_report.py`
+reports/

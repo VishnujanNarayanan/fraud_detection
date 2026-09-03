@@ -64,3 +64,18 @@ SELECT
     ROUND(100.0 * SUM(CASE WHEN isFlaggedFraud = 1 AND isFraud = 1 THEN 1 ELSE 0 END)
           / SUM(isFraud), 3)                         AS fraud_caught_pct
 FROM transactions;
+
+-- name: channel_hour
+-- Channel against hour of day -- the two-dimensional view the spreadsheet
+-- report pivots on. Only the two channels that ever carry fraud are returned;
+-- the other three are constant zero and would pad the pivot with empty rows.
+SELECT
+    type                                             AS channel,
+    step % 24                                        AS hour,
+    COUNT(*)                                         AS transactions,
+    SUM(isFraud)                                     AS fraud_cases,
+    ROUND(100.0 * SUM(isFraud) / COUNT(*), 4)        AS fraud_rate_pct
+FROM transactions
+WHERE type IN ('TRANSFER', 'CASH_OUT')
+GROUP BY type, step % 24
+ORDER BY channel, hour;
