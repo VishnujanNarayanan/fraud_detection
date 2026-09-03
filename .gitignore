@@ -22,3 +22,7 @@ nexora.ipynb
 resume_extract*.yaml
 
 # Note: figures/ IS tracked — the README embeds those PNGs.
+
+# Resume extraction material — personal career data, never committed
+bullet_extract_latest.yaml
+bullet_extract_[0-9]*.yaml
