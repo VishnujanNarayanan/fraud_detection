@@ -1,0 +1,11 @@
+# Matches the palette in viz_style.py, so the dashboard and the figures it embeds
+# read as one piece of work rather than two.
+[theme]
+primaryColor = "#eb6834"
+backgroundColor = "#fcfcfb"
+secondaryBackgroundColor = "#f9f9f7"
+textColor = "#0b0b0b"
+font = "sans serif"
+
+[server]
+headless = true
