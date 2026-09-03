@@ -5,6 +5,7 @@ scipy
 scikit-learn
 matplotlib
 openpyxl
+streamlit
 pillow
 joblib
 jupyter
